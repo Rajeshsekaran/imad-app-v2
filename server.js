@@ -5,7 +5,8 @@ var path = require('path');
 var app = express();
 app.use(morgan('combined'));
 
-var articleOne = {
+var articles = {
+    'article-one': {
     title: 'Article-one : Rajesh Sekaran',
     heading: 'Article-one',
     date:'Feb 12, 2017',
@@ -20,6 +21,28 @@ var articleOne = {
                 <p>
                     This is my first program using imad tools.This is the content for tmy first artcile.This is the content for tmy first artcile.This is the content for tmy first artcile.This is the content for tmy first artcile.
                 </p>`
+},
+    'article-two': {
+    title: 'Article-two : Rajesh Sekaran',
+    heading: 'Article-one',
+    date:'May 17, 2017',
+    content:`
+                <p>
+                    This is the content for my first artcile.This is the content for my first artcile.This is the content for my first artcile.This is the content for my first artcile.This is the content for my first artcile.
+                
+                <p>
+                    This is my first program using imad tools.This is the content for tmy first artcile.This is the content for tmy first artcile.This is the content for tmy first artcile.This is the content for tmy first artcile.
+                </p>`},
+    'article-three': {
+    title: 'Article-three : Rajesh Sekaran',
+    heading: 'Article-three',
+    date:'Aug 23, 2017',
+    content:`
+                <p>
+                    This is my first program using imad tools.
+                </p>`
+              }
+
 };
 
 function createTemplate (data){
@@ -60,16 +83,11 @@ var htmlTemplate =`<html>
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
-app.get('/article-one', function (req, res){
-  res.sendFile(createTemplate(articleOne));
-});
-
-app.get('/article-two', function (req, res){
-  res.sendFile(path.join(__dirname, 'ui', 'article-two.html'));
-});
-
-app.get('/article-three', function (req, res){
-  res.sendFile(path.join(__dirname, 'ui', 'article-three.html'));
+app.get('/:articleName', function (req, res){
+    //articleName will be == article-one
+    //articles[artcileName] == {}content object for article one
+  var articleName = req.params.articleName;
+  res.sendFile(createTemplate(articles[articleName]));
 });
 
 app.get('/ui/style.css', function (req, res) {
